@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellnessHub - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+ 
+
+
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .welcome-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+        
+        .user-name {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logout-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>WellnessHub</h1>
+            <button class="logout-btn" id="logout-btn">Logout</button>
+        </div>
+        
+        <div class="welcome-card">
+            <h2>Welcome to WellnessHub</h2>
+            <p>Hello, <span id="user-name">User</span>!</p>
+            <p>You've successfully logged in.</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const userData = JSON.parse(localStorage.getItem('wellnessHubUser') || '{}');
+            
+            if (!userData.isLoggedIn) {
+                // Redirect to login page if not logged in
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Display user name if available
+            const userNameElement = document.getElementById('user-name');
+            if (userData.name) {
+                userNameElement.textContent = userData.name;
+            } else if (userData.email) {
+                // Use email if name is not available
+                userNameElement.textContent = userData.email.split('@')[0];
+            }
+            
+            // Handle logout
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                localStorage.removeItem('wellnessHubUser');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>
